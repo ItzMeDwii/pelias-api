@@ -16,7 +16,7 @@ let server;
 
 // load Elasticsearch type mappings before starting web server
 type_mapping.load(() => {
-  var httpsServer = https.createServer(credentials, app)
+  var httpsServer = https.createServer(credentials, app);
   server = httpsServer.listen(port, host, () => {
     // ask server for the actual address and port its listening on
     const listenAddress = server.address();

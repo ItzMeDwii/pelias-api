@@ -1,18 +1,24 @@
 var app = require('express')();
+var cors = require('cors');
 
-var peliasConfig = require( 'pelias-config' ).generate(require('./schema'));
+app.use(cors({
+  origin: (process.env.REMOTE_ORIGIN).toString().split(','),
+  methods: 'GET,HEAD,OPTIONS,POST,PUT'
+}));
 
-if( peliasConfig.api.accessLog ){
-  app.use( require( './middleware/access_log' ).createAccessLogger( peliasConfig.api.accessLog ) );
+var peliasConfig = require('pelias-config').generate(require('./schema'));
+
+if (peliasConfig.api.accessLog) {
+  app.use(require('./middleware/access_log').createAccessLogger(peliasConfig.api.accessLog));
 }
 
 /** ----------------------- pre-processing-middleware ----------------------- **/
 
-app.use( require('./middleware/headers') );
-app.use( require('./middleware/cors') );
-app.use( require('./middleware/robots') );
-app.use( require('./middleware/options') );
-app.use( require('./middleware/jsonp') );
+app.use(require('./middleware/headers'));
+app.use(require('./middleware/cors'));
+app.use(require('./middleware/robots'));
+app.use(require('./middleware/options'));
+app.use(require('./middleware/jsonp'));
 
 /** ----------------------- routes ----------------------- **/
 
@@ -25,7 +31,7 @@ v1.addRoutes(app, peliasConfig);
 
 /** ----------------------- error middleware ----------------------- **/
 
-app.use( require('./middleware/404') );
-app.use( require('./middleware/500') );
+app.use(require('./middleware/404'));
+app.use(require('./middleware/500'));
 
 module.exports = app;
