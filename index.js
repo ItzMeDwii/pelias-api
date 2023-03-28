@@ -3,6 +3,10 @@ const type_mapping = require('./helper/type_mapping');
 const https = require('https');
 const fs = require('fs');
 
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
+
 const app = require('./app'),
   port = (process.env.PORT || 3100),
   host = (process.env.HOST || '0.0.0.0');
