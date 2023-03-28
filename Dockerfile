@@ -1,19 +1,22 @@
-# base image
-FROM pelias/baseimage
-USER pelias
+FROM node:16-alpine
+
+LABEL name "Dwii5359 Pelias API"
+LABEL maintainer "Dwii5359 <dwiiunknown@gmail.com>"
 
 # Where the app is built and run inside the docker fs
 ENV WORK=/home/pelias
 WORKDIR ${WORK}
 
-# copy package.json first to prevent npm install being rerun when only code changes
+# Copy package.json first to prevent npm install being rerun when only code changes
 COPY ./package.json ${WORK}
 RUN npm install
 
+# Copy Project
 COPY . ${WORK}
 
-# only allow containers to succeed if tests pass
-RUN npm test
+# Copy SSL Certificates
+COPY ${SSL_CRT_PATH} ${WORK}
+COPY ${SSL_KEY_PATH} ${WORK}
 
-# start service
-CMD [ "./bin/start" ]
+# Start the app with node
+CMD ["node", "index.js"]

@@ -2,7 +2,7 @@ var app = require('express')();
 var cors = require('cors');
 
 app.use(cors({
-  origin: String(process.env.REMOTE_ORIGIN).split(','),
+  origin: process.env.REMOTE_ORIGIN === undefined ? '*' : String(process.env.REMOTE_ORIGIN).split(','),
   methods: 'GET,HEAD,OPTIONS,POST,PUT'
 }));
 
