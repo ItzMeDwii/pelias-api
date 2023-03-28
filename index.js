@@ -11,8 +11,8 @@ const app = require('./app'),
   port = (process.env.PORT || 3100),
   host = (process.env.HOST || '0.0.0.0');
 
-var privateKey = fs.readFileSync(process.env.WORK + '/' + process.env.SSL_KEY_NAME, 'utf8');
-var certificate = fs.readFileSync(process.env.WORK + '/' + process.env.SSL_CRT_NAME, 'utf8');
+var privateKey = fs.readFileSync(process.env.SSL_KEY_NAME, 'utf8');
+var certificate = fs.readFileSync(process.env.SSL_CRT_NAME, 'utf8');
 
 var credentials = { key: privateKey, cert: certificate };
 
